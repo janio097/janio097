@@ -1,0 +1,478 @@
+//
+//https://editor.p5js.org/janio097/sketches/NNN1SVex9
+/* 
+    Aluno:Jânio Álvaro Trajano da Silva - Turma 02B       
+*/
+let borda = 100;
+var opcao = 1
+var tela = 0
+
+var img
+var xBoneco = 50
+var yBoneco = 280
+var yChao = 280
+var Salto = false
+var xobstaculo = [450,600,900]
+var yobstaculo
+
+var raioP = 11
+var raioO = 11
+var vidas = 3
+var pontos = 0
+var nivel = 1
+var dificuldade = 1
+var barreiradepontos = 0
+var colisão = true
+
+function preload() {
+  img1 = loadImage("dp.jpg");
+  img2 = loadImage ("ds.jpg")
+  img3 = loadImage ("dd.jpg")
+  img4 = loadImage ("dn.jpg")  
+  img5 = loadImage ("rune.png")
+  img6 = loadImage("onepiece0.jpg");
+
+}
+
+function setup() {
+  createCanvas(450,450)
+  //xobstaculo = random (400)
+  yobstaculo = random (400)
+  
+}
+ function draw(){ 
+   fill("orange");
+   if(tela==0)
+   menu();
+   if(tela==1)
+   Fase1();
+   if(tela==2)
+   Instruções();
+   if(tela==3)
+   Créditos();
+   if(tela==4)
+   Gameover();
+   if(tela==5)
+   Fase2();
+   if(tela==6)
+   Fase3();
+   if(tela==7)
+   Fase4();
+   if(tela==8)
+   Fase5();
+   if(tela==9)
+   Conclusão();
+}   
+   pontos = pontos+0  
+   if(pontos>barreiradepontos){
+   pontos++
+   barreiradepontos=barreiradepontos
+}
+
+function menu(){
+   image(img1,0,0,450,480);
+   rect(120,borda,200,50,10)  
+   fill("blu")
+   textSize(40)
+   text("Corrida com Obstáculo",20,70)
+   ellipse (230,80,330,5)
+   textSize(30)
+   text("Jogar",170,132)   
+   text("Instruções",150,230)   
+   text("Créditos",170,330);   
+}
+  //informações
+function Fase1(){
+  image(img2,0,0,450,450);
+  textSize(25)
+  rect(yChao+25,450,400)
+  fill(20)
+  image(img5,xBoneco-40,yBoneco,100,100); 
+  text("Vidas:" + vidas,280,30)
+  text("Pontos:" + pontos,120,30)
+  
+  //controle de teclas
+  if (keyIsDown(LEFT_ARROW)&&xBoneco>=20){
+    xBoneco = xBoneco - 6;
+  }
+  if (keyIsDown(RIGHT_ARROW)&&xBoneco<=430){
+    xBoneco = xBoneco + 6;
+  }
+  if(keyIsDown(DOWN_ARROW) && Salto){
+    yBoneco = yBoneco +8;
+  }
+  if(keyIsDown(UP_ARROW) && ! Salto)
+  {  
+  yBoneco = yChao - 120
+  Salto = true
+  }
+  if (Salto) {
+  if(yBoneco < yChao) {
+     yBoneco = yBoneco + 2
+  }
+  else {
+    Salto = false
+    yBoneco = yChao
+    
+    }
+   } 
+  //colisão
+  for(i=0;i<3;i++){
+  if(dist(xBoneco,yBoneco,xobstaculo[i],300) < raioP+raioO) {
+   xobstaculo[i] = 450
+   yobstaculo = 450  
+   xBoneco = 50
+   yBoneco = 280
+   vidas--
+ }
+ //Obstáculos
+  rect(xobstaculo[i],335,5,30,20)
+  xobstaculo[i] = xobstaculo[i] - 3
+  if (xobstaculo[i] < 0){
+  xobstaculo[i] = random (450,400)
+    pontos++
+  }  
+  if(vidas < barreiradepontos){
+  vidas --
+  barreiradepontos = barreiradepontos + 1      
+  }
+   if(vidas < 1){
+   tela=4
+   }
+   if(pontos ==10){
+     tela=5
+   }
+  }
+}
+//informações
+function Fase2() {
+  image(img2,0,0,450,450);
+  textSize(25)
+  rect(yChao+25,450,400)
+  fill(20)
+  image(img5,xBoneco-40,yBoneco,100,100); 
+  text("Vidas:" + vidas,280,30)
+  text("Pontos:" + pontos,120,30)
+
+  
+  //controle de teclas
+  if (keyIsDown(LEFT_ARROW)&&xBoneco>=20){
+    xBoneco = xBoneco - 5;
+  }
+  if (keyIsDown(RIGHT_ARROW)&&xBoneco<=430){
+    xBoneco = xBoneco + 5;
+  }
+  if(keyIsDown(DOWN_ARROW) && Salto){
+    yBoneco = yBoneco +8;
+  }
+  if(keyIsDown(UP_ARROW) && ! Salto)
+  {  
+  yBoneco = yChao - 120
+  Salto = true
+  }
+  if (Salto) {
+  if(yBoneco < yChao) {
+     yBoneco = yBoneco + 2
+  }
+  else {
+    Salto = false
+    yBoneco = yChao
+    
+    }
+   } 
+  //colisão
+  for(i=0;i<3;i++){
+  if(dist(xBoneco,yBoneco,xobstaculo[i],300) < raioP+raioO) {
+   xobstaculo[i] = 450
+   yobstaculo = 450  
+   xBoneco = 50
+   yBoneco = 280
+   vidas--
+ }
+ //Obstáculos
+  rect(xobstaculo[i],335,5,30,20)
+  xobstaculo[i] = xobstaculo[i] - 5
+  if (xobstaculo[i] < 0){
+  xobstaculo[i] = random (450,400)
+    pontos++
+  }  
+  if(vidas < barreiradepontos){
+  vidas --
+  barreiradepontos = barreiradepontos + 1      
+  }
+   if(vidas < 1){
+   tela = 4
+   }
+   if(pontos ==20){
+     tela=6
+   }
+  }
+}
+//informações
+function Fase3() {
+  image(img2,0,0,450,450);
+  textSize(25)
+  rect(yChao+25,450,400)
+  fill(20)
+  image(img5,xBoneco-40,yBoneco,100,100); 
+  text("Vidas:" + vidas,280,30)
+  text("Pontos:" + pontos,120,30)
+  
+  
+  //controle de teclas
+  if (keyIsDown(LEFT_ARROW)&&xBoneco>=20){
+    xBoneco = xBoneco - 5;
+  }
+  if (keyIsDown(RIGHT_ARROW)&&xBoneco<=430){
+    xBoneco = xBoneco + 5;
+  }
+  if(keyIsDown(DOWN_ARROW) && Salto){
+    yBoneco = yBoneco +8;
+  }
+  if(keyIsDown(UP_ARROW) && ! Salto)
+  {  
+  yBoneco = yChao - 120
+  Salto = true
+  }
+  if (Salto) {
+  if(yBoneco < yChao) {
+     yBoneco = yBoneco + 2
+  }
+  else {
+    Salto = false
+    yBoneco = yChao
+    
+    }
+   } 
+  //colisão
+  for(i=0;i<3;i++){
+  if(dist(xBoneco,yBoneco,xobstaculo[i],300) < raioP+raioO) {
+   xobstaculo[i] = 450
+   yobstaculo = 450  
+   xBoneco = 50
+   yBoneco = 280
+   vidas--
+ }
+ //Obstáculos
+  rect(xobstaculo[i],335,5,30,20)
+  xobstaculo[i] = xobstaculo[i] - 7
+  if (xobstaculo[i] < 0){
+  xobstaculo[i] = random (450,400)
+    pontos++
+  }  
+  if(vidas < barreiradepontos){
+  vidas --
+  barreiradepontos = barreiradepontos + 1      
+  }
+   if(vidas < 1){
+   tela=4
+   }
+   if(pontos ==35){
+     tela=7
+   }
+  }
+}
+//informações
+function Fase4(){
+  image(img2,0,0,450,450);
+  textSize(25)
+  rect(yChao+25,450,400)
+  fill(20)
+  image(img5,xBoneco-40,yBoneco,100,100); 
+  text("Vidas:" + vidas,280,30)
+  text("Pontos:" + pontos,120,30)
+  
+  
+  //controle de teclas
+  if (keyIsDown(LEFT_ARROW)&&xBoneco>=20){
+    xBoneco = xBoneco - 5;
+  }
+  if (keyIsDown(RIGHT_ARROW)&&xBoneco<=430){
+    xBoneco = xBoneco + 5;
+  }
+  if(keyIsDown(DOWN_ARROW) && Salto){
+    yBoneco = yBoneco +8;
+  }
+  if(keyIsDown(UP_ARROW) && ! Salto)
+  {  
+  yBoneco = yChao - 120
+  Salto = true
+  }
+  if (Salto) {
+  if(yBoneco < yChao) {
+     yBoneco = yBoneco + 2
+  }
+  else {
+    Salto = false
+    yBoneco = yChao
+    
+    }
+   } 
+//colisão
+  for(i=0;i<3;i++){
+  if(dist(xBoneco,yBoneco,xobstaculo[i],300) < raioP+raioO) {
+   xobstaculo[i] = 450
+   yobstaculo = 450  
+   xBoneco = 50
+   yBoneco = 280
+   vidas--
+ }
+ //Obstáculos
+  rect(xobstaculo[i],335,5,30,20)
+  xobstaculo[i] = xobstaculo[i] - 9
+  if (xobstaculo[i] < 0){
+  xobstaculo[i] = random (450,400)
+    pontos++
+  }  
+  if(vidas < barreiradepontos){
+  vidas --
+  barreiradepontos = barreiradepontos + 1      
+  }
+   if(vidas < 1){
+   tela=4
+   }
+   if(pontos ==50){
+     tela=8
+   }
+  }
+}
+function Fase5(){
+  image(img2,0,0,450,450);
+  textSize(25)
+  rect(yChao+25,450,400)
+  fill(20)
+  image(img5,xBoneco-40,yBoneco,100,100); 
+  text("Vidas:" + vidas,280,30)
+  text("Pontos:" + pontos,120,30)
+  
+  
+  //controle de teclas
+  if (keyIsDown(LEFT_ARROW)&&xBoneco>=20){
+    xBoneco = xBoneco - 5;
+  }
+  if (keyIsDown(RIGHT_ARROW)&&xBoneco<=430){
+    xBoneco = xBoneco + 5;
+  }
+  if(keyIsDown(DOWN_ARROW) && Salto){
+    yBoneco = yBoneco +8;
+  }
+  if(keyIsDown(UP_ARROW) && ! Salto)
+  {  
+  yBoneco = yChao - 120
+  Salto = true
+  }
+  if (Salto) {
+  if(yBoneco < yChao) {
+     yBoneco = yBoneco + 2
+  }
+  else {
+    Salto = false
+    yBoneco = yChao
+    
+    }
+   } 
+//colisão
+  for(i=0;i<3;i++){
+  if(dist(xBoneco,yBoneco,xobstaculo[i],300) < raioP+raioO) {
+   xobstaculo[i] = 450
+   yobstaculo = 450  
+   xBoneco = 50
+   yBoneco = 280
+   vidas--
+   }
+  //Obstáculos
+  rect(xobstaculo[i],335,5,30,20)
+  xobstaculo[i] = xobstaculo[i] - 11
+  if (xobstaculo[i] < 0){
+  xobstaculo[i] = random (450,400)
+    pontos++
+  }  
+  if(vidas < barreiradepontos){
+  vidas --
+  barreiradepontos = barreiradepontos + 1      
+  }
+   if(vidas < 1){
+   tela=4
+   }
+   if(pontos ==100){
+     tela=9
+   }
+  }
+}
+
+function Conclusão(){
+   image(img4,0,0,450,480);
+   fill("red") 
+   stroke(-200)
+   textSize(60)
+   text("Parabéns",80,70)   
+}
+
+function Gameover( ) {
+    image(img6,0,0,450,480);
+    textSize(70);
+    fill("black");
+    text("Game Over",40,150);
+    fill("red");
+    textSize(35);
+    text("Aperte ESC para continuar",20,220,450);
+    vidas = 3;
+    pontos = 0;
+    nivel = 1;
+    bdp = 200;
+    if (keyIsDown(32)) {
+    tela = 0;
+    } 
+}
+
+function Instruções(){  
+   image(img3,0,0,450,450);
+   fill ("red")
+   stroke(-200)
+   textSize(40)
+   text("Instruções ",110,50)
+   textSize(25)
+   ellipse(10,90,10,10);
+   text(" Seja um Ninja e utilize as setas do seu teclado para salte sobre os obstáculos. ",20,80,400)
+}
+
+function Créditos(){
+   image(img4,0,0,450,480);
+   fill("red") 
+   stroke(-200)
+   textSize(40)
+   text("Créditos",120,50)
+   textSize(25)
+   fill("orange")
+   ellipse(10,110,10,10); 
+   text("Programador: Jânio Álvaro T. da Silva ",20,120)
+   text("Estudante de Ciências e Tecnologia",20,160)  
+   ellipse(10,240,10,10); 
+   text("Monitora: Dayana Karoline ",20,250)
+   ellipse(10,310,10,10);
+   text("Educador: Orivaldo Santana ",20,320)
+   text("Prof. Lógica de Programaçao ECT ",20,350)
+}
+
+function keyPressed() {
+  if(tela==0){
+    if (keyCode == UP_ARROW && borda>140){    
+  borda=borda-50
+  borda=borda-50
+  opcao=opcao-1
+  console.log(opcao)
+    }else if(keyCode == DOWN_ARROW && borda<230){
+  borda=borda+50
+  borda=borda+50
+  opcao=opcao+1
+  console.log(opcao)
+    }
+  if(key=="Enter"){
+    tela=opcao
+    }
+  }    
+  if(key=="Escape"){
+    tela=0
+  }
+}
+
